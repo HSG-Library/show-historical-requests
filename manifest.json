@@ -1,0 +1,14 @@
+{
+   "id": "show-historical-requests",
+   "title": "Show historical requests",
+   "subtitle": "Show historical/expired user requests per bibliographic title",
+   "author": "Marina Frei",
+   "description": "Displaying the historical/expired hold requests of a specific title",
+   "icon": {
+      "type": "font",
+      "value": "fa fa-list-ul"
+   },
+   "entities": [
+      "BIB_MMS"
+   ]
+}

@@ -1,0 +1,60 @@
+<ng-container 
+  *ngIf="displayEntities && pageEntities?.length > 0; then entities; else noentities"
+  ></ng-container>
+
+<ng-template #noentities>
+  <h1>Welcome!</h1>
+  <p>This app is used to display the historical user requests of a specific title.</p>
+  <p>There is nothing to show in this screen.</p>
+  <div class="highlight">Search for a title using the "All titles" or "Physical titles" search</div>
+</ng-template>
+
+<ng-template #entities>
+  <div class="eca-actions">
+    <button mat-flat-button color="secondary" (click)="clear()" [disabled]="!selectedEntity">Clear</button>
+  </div>
+  <mat-card *ngIf="selectedEntity">
+    <mat-card-header>
+      <mat-card-title>Selected Title</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{selectedEntity.description}}</p>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="apiResult && showApiResult">
+    <mat-card-header>
+      <mat-card-title>Historical/Expired Requests</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ul *ngFor="let item of apiResult.user_request">
+        <li>Primary ID: {{ item.user_primary_id }}, <br /> Request ID: {{ item.request_id }}, 
+        <br /> Request Date: {{ item.request_date }}, <br /> Pickup Location: {{ item.pickup_location }}
+      </li>
+      </ul>  
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="apiResult && !showApiResult">
+    <mat-card-header>
+      <mat-card-title>Historical/Expired Requests</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ul>
+        <li>No user requests</li>
+      </ul>  
+    </mat-card-content>
+  </mat-card>
+    <label id="entities-radio-group-label">Select a title:</label>
+  <mat-radio-group
+    aria-labelledby="entities-radio-group-label"
+    class="entities-radio-group"
+    [(ngModel)]="selectedEntity"
+    (change)="entitySelected($event)">
+    <mat-radio-button *ngFor="let entity of pageEntities" [value]="entity">
+      {{entity.description}}
+    </mat-radio-button>
+  </mat-radio-group>
+</ng-template>
+
+<div class="loading-shade" *ngIf="loading">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
